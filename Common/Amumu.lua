@@ -24,6 +24,7 @@ AmumuMenu.Misc:Boolean("UseChilling", "Use Chilling Smite", true)
 AmumuMenu.Misc:Boolean("UseSmite", "AutoSmite Baron/Dragon", false)
 AmumuMenu.Misc:Boolean("Interrupt", "Interrupt Spells with Q", true)
 AmumuMenu.Misc:Boolean("InterruptR", "Interrupt Spells with R", false)
+AmumuMenu.Misc:Boolean("UseZhonyas", "Use Zhonyas", true)
 AmumuMenu.Misc:Slider("UseZhonya", "Use Zhonyas at % HP", 30, 1, 100, 1)
 
 AmumuMenu:SubMenu("LaneClear", "Lane Clear")
@@ -368,7 +369,7 @@ end
 function AutoZhonyas()
 
 	for i, enemy in pairs(GoS:GetEnemyHeroes()) do
-		if GetItemSlot(myHero,3157) > 0 and GoS:ValidTarget (enemy, 900) and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) <= AmumuMenu.Misc.UseZhonyaValue() then
+		if AmumuMenu.Misc.UseZhonyas:Value() and GetItemSlot(myHero,3157) > 0 and GoS:ValidTarget (enemy, 900) and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) <= AmumuMenu.Misc.UseZhonya:Value() then
 			if CanUseSpell(myHero, _R) ~= READY then
        			CastTargetSpell(myHero, GetItemSlot(myHero,3157))
        		end
