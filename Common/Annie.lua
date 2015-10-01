@@ -179,8 +179,8 @@ end
 function Combo()
 
 	local target = GetCurrentTarget()
-	local predW = GetPredictionForPlayer(GetOrigin(myHero),target,GetMoveSpeed(target),1400,250,625,50,false,true)
-	local predR = GetPredictionForPlayer(GetOrigin(myHero),target,GetMoveSpeed(target),1400,250,1000,50,false,true)     
+	local predW = GetPredictionForPlayer(GetOrigin(myHero),target,GetMoveSpeed(target),1400,250,600,50,false,true)
+	local predR = GetPredictionForPlayer(GetOrigin(myHero),target,GetMoveSpeed(target),1400,250,800,50,false,true)     
 
 	-- Combo and Stun-R (LOW HP FOCUS + NO TANK FOCUS)--
 
@@ -1127,7 +1127,7 @@ end
 function Harass()
 
 	local target = GetCurrentTarget()
-	local predW = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1400,250,rangeW,50,false,true)
+	local predW = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1400,250,rangeW-25,50,false,true)
 
 	if IOW:Mode() == "Harass" and IsObjectAlive(target) and IsTargetable(target) and not IsImmune(target, myHero) then
                
@@ -1151,8 +1151,8 @@ function SmartKS()
 
 for i,enemy in pairs(GoS:GetEnemyHeroes()) do
 
-	local predWW = GetPredictionForPlayer(GoS:myHeroPos(),enemy,GetMoveSpeed(enemy),1400,250,rangeW,50,false,true)
-	local predRR = GetPredictionForPlayer(GoS:myHeroPos(),enemy,GetMoveSpeed(enemy),1400,250,1000,50,false,true)
+	local predWW = GetPredictionForPlayer(GoS:myHeroPos(),enemy,GetMoveSpeed(enemy),1400,250,rangeW-25,50,false,true)
+	local predRR = GetPredictionForPlayer(GoS:myHeroPos(),enemy,GetMoveSpeed(enemy),1400,250,800,50,false,true)
 	local Ignited = 20*GetLevel(myHero)+50 > GetCurrentHP(enemy)+GetDmgShield(enemy)+GetHPRegen(enemy)*2.5
 	
 -- Ludens Echo Bonus DMG --
