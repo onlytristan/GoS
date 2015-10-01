@@ -408,7 +408,7 @@ function LaneClear()
 				CastSpell(_W)
 			end
 
-			if AmumuMenu.LaneClear.E:Value() and GoS:ValidTarget (minion, rangeE + 25) and CountEnemyMinionsAround(GetOrigin(myHero),rangeW+25) >= AmumuMenu.LaneClear.minioncount2:Value() then
+			if AmumuMenu.LaneClear.E:Value() and GoS:ValidTarget (minion, rangeE-15) and CountEnemyMinionsAround(GetOrigin(myHero),rangeE-15) >= AmumuMenu.LaneClear.minioncount2:Value() then
 				if CanUseSpell(myHero,_E) == READY then
 					CastSpell(_E)
 				end
@@ -448,7 +448,7 @@ function JungleClear()
 				CastSpell(_W)
 			end
 
-			if AmumuMenu.JungleClear.E:Value() and GoS:ValidTarget (minion, rangeE + 25) and CountJungleMobsAround(GetOrigin(myHero),rangeW+25) >= AmumuMenu.JungleClear.mobcount2:Value() then
+			if AmumuMenu.JungleClear.E:Value() and GoS:ValidTarget (minion, rangeE-15) and CountJungleMobsAround(GetOrigin(myHero),rangeE-15) >= AmumuMenu.JungleClear.mobcount2:Value() then
 				if CanUseSpell(myHero,_E) == READY then
 					CastSpell(_E)
 				end
@@ -492,9 +492,10 @@ function KillSteal()
 	end	
 
 	for i,enemy in pairs(GoS:GetEnemyHeroes()) do
-		if AmumuMenu.Killsteal.Q:Value() and GoS:ValidTarget (enemy, rangeQ + 100) and QPred.HitChance == 1 and not IsImmune(enemy, myHero) then
+	local predQ = GetPredictionForPlayer(GoS:myHeroPos(),enemy,GetMoveSpeed(enemy),2000,250,1100,80,true,true)		
+		if AmumuMenu.Killsteal.Q:Value() and GoS:ValidTarget (enemy, rangeQ + 100) and predQ.HitChance == 1 and not IsImmune(enemy, myHero) then
 			if CanUseSpell(myHero,_Q) == READY and GoS:CalcDamage(myHero, enemy, 0, myDamage + Ludens) > GetCurrentHP(enemy) + GetHPRegen(enemy) + GetMagicShield(enemy) + GetDmgShield(enemy) then
-				CastSkillShot(_Q,QPred.PredPos.x, QPred.PredPos.y, QPred.PredPos.z)
+				CastSkillShot(_Q,predQ.PredPos.x, predQ.PredPos.y, predQ.PredPos.z)
 			end                    
 		elseif AmumuMenu.Killsteal.E:Value() and GoS:ValidTarget (enemy, rangeE + 25) and GoS:IsInDistance(enemy, rangeE-35) then
 			if CanUseSpell(myHero,_E) == READY and GoS:CalcDamage(myHero, enemy, 0, mySecondDamage + Ludens) > GetCurrentHP(enemy) + GetHPRegen(enemy) + GetMagicShield(enemy) + GetDmgShield(enemy) then
@@ -504,13 +505,13 @@ function KillSteal()
 			if CanUseSpell(myHero,_R) == READY and GoS:GetDistance(enemy) < rangeR - 25 and GoS:CalcDamage(myHero, enemy, 0, myThirdDamage + Ludens) > GetCurrentHP(enemy) + GetHPRegen(enemy) + GetMagicShield(enemy) + GetDmgShield(enemy) then
 				CastSpell(_R)
 			end
-		elseif AmumuMenu.Killsteal.QE:Value() and GoS:ValidTarget (enemy, rangeQ + 100) and QPred.HitChance == 1 then
+		elseif AmumuMenu.Killsteal.QE:Value() and GoS:ValidTarget (enemy, rangeQ + 100) and predQ.HitChance == 1 then
 			if CanUseSpell(myHero,_Q) == READY and CanUseSpell(myHero,_E) == READY and GoS:CalcDamage(myHero, enemy, 0, myDamage + mySecondDamage + Ludens) > GetCurrentHP(enemy) + GetHPRegen(enemy) + GetMagicShield(enemy) + GetDmgShield(enemy) then
-				CastSkillShot(_Q,QPred.PredPos.x, QPred.PredPos.y, QPred.PredPos.z) GoS:DelayAction(function() CastSpell(_E) end,650)
+				CastSkillShot(_Q,predQ.PredPos.x, predQ.PredPos.y, predQ.PredPos.z) GoS:DelayAction(function() CastSpell(_E) end,650)
 			end
-		elseif AmumuMenu.Killsteal.QER:Value() and GoS:ValidTarget (enemy, rangeR + 100) and GoS:IsInDistance(enemy, rangeR-25) and QPred.HitChance == 1 then
+		elseif AmumuMenu.Killsteal.QER:Value() and GoS:ValidTarget (enemy, rangeR + 100) and GoS:IsInDistance(enemy, rangeR-25) and predQ.HitChance == 1 then
 			if CanUseSpell(myHero,_Q) == READY and CanUseSpell(myHero,_E) == READY and CanUseSpell(myHero,_R) == READY and GoS:CalcDamage(myHero, enemy, 0, myDamage + mySecondDamage + myThirdDamage + Ludens) > GetCurrentHP(enemy) + GetHPRegen(enemy) + GetMagicShield(enemy) + GetDmgShield(enemy) then
-				CastSpell(_R) GoS:DelayAction(function() CastSkillShot(_Q,QPred.PredPos.x, QPred.PredPos.y, QPred.PredPos.z) end,50) GoS:DelayAction(function() CastSpell(_E) end,500)
+				CastSpell(_R) GoS:DelayAction(function() CastSkillShot(_Q,predQ.PredPos.x, predQ.PredPos.y, predQ.PredPos.z) end,50) GoS:DelayAction(function() CastSpell(_E) end,500)
 			end
 		end
 	end
@@ -525,7 +526,7 @@ function Drawings()
 
 	if AmumuMenu.Drawings.W:Value() then
 											 
-		DrawCircle(GetOrigin(myHero).x,GetOrigin(myHero).y,GetOrigin(myHero).z,rangeW,3,100,0xff0000ff)   
+		DrawCircle(GetOrigin(myHero).x,GetOrigin(myHero).y,GetOrigin(myHero).z,rangeW,3,100,0xff00ffff)   
 	end	
 
 	if AmumuMenu.Drawings.E:Value() then
