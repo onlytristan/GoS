@@ -59,7 +59,7 @@ AmumuMenu.Drawings:Boolean("E", "Draw E Range", false)
 AmumuMenu.Drawings:Boolean("R", "Draw R Range", true)
 
 PrintChat(string.format("<font color='#ff9d00'>DatAmumu:</font> <font color='#ff0000'>Loaded.</font>"))
-PrintChat(string.format("<font color='#ff9d00'>Version:</font> <font color='#ff0000'>1.0.3</font>"))
+PrintChat(string.format("<font color='#ff9d00'>Version:</font> <font color='#ff0000'>1.0.4</font>"))
 PrintChat(string.format("<font color='#ff9d00'>Made By:</font> <font color='#ff0000'>Rakli.</font>"))
 
 OnLoop(function(myHero)
@@ -99,8 +99,8 @@ end
 function MyDamages()
 
 	myDamage = 30 + 50*GetCastLevel(myHero,_Q) + 0.7*GetBonusAP(myHero)
-	mySecondDamage = 50 + 25*GetCastLevel(myHero,_Q) + 0.5*GetBonusAP(myHero)
-	myThirdDamage = 50 + 100*GetCastLevel(myHero,_Q) + 0.8*GetBonusAP(myHero)
+	mySecondDamage = 50 + 25*GetCastLevel(myHero,_E) + 0.5*GetBonusAP(myHero)
+	myThirdDamage = 50 + 100*GetCastLevel(myHero,_R) + 0.8*GetBonusAP(myHero)
 	
 end	
 
