@@ -15,6 +15,8 @@ DatLux.Harass:Boolean("Q", "Use Q", true)
 DatLux.Harass:Boolean("E", "Use E", true)
 
 DatLux:SubMenu("Misc", "Misc")
+DatLux.Misc:Boolean("AutoLevels", "Auto Level Spells", false)
+DatLux.Misc:List("AutoLevel", "Choose Level Order", 1, {"E-Q-W", "Q-E-W"})
 DatLux.Misc:Boolean("UseIgnite", "Use Ignite", true)
 DatLux.Misc:Boolean("Interrupt", "Interrupt GapClosers with Q", true)
 DatLux.Misc:Boolean("UseZhonyas", "Use Zhonyas", true)
@@ -51,10 +53,6 @@ DatLux.Drawings:Boolean("E", "Draw E Range", false)
 DatLux.Drawings:Boolean("R", "Draw R Range", false)
 DatLux.Drawings:Slider("DrawFPS", "Quality - Higher is more FPS", 255, 1, 255, 1)
 
-PrintChat(string.format("<font color='#ff0000'>DatLux:</font> <font color='#ff9d00'>Loaded.</font>"))
-PrintChat(string.format("<font color='#ff0000'>Version:</font> <font color='#ff9d00'>1.0.0</font>"))
-PrintChat(string.format("<font color='#ff0000'>Made By:</font> <font color='#ff9d00'>Rakli.</font>"))
-
 OnLoop(function(myHero)
 
 local myHero = GetMyHero()
@@ -66,7 +64,7 @@ Combo()
 CastW()
 Harass()
 Misc()
-AutoZhonyas()
+Autolevel()
 LaneClear()
 JungleClear()
 JungleSteal()
@@ -265,19 +263,26 @@ function Misc()
 				CastTargetSpell(enemy, Ignite)
 			end
 		end
-	end
-end
 
-function AutoZhonyas()
-
-	for i, enemy in pairs(GoS:GetEnemyHeroes()) do
 		if DatLux.Misc.UseZhonyas:Value() and GetItemSlot(myHero,3157) > 0 and GoS:ValidTarget (enemy, 900) and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) <= DatLux.Misc.UseZhonya:Value() then
-			if CanUseSpell(myHero, _R) ~= READY and CanUseSpell(myHero, _Q) ~= READY and CanUseSpell(myHero, _E) ~= READY then
+			if CanUseSpell(myHero, _R) ~= READY and CanUseSpell(myHero, _Q) ~= READY and CanUseSpell(myHero, _E) ~= READY and GetCurrentHP(enemy)/GetMaxHP(enemy)>=0.20 then
        			CastTargetSpell(myHero, GetItemSlot(myHero,3157))
        		end
-       	end		
+       	end			
 	end
-end
+end	
+
+function Autolevel()
+
+	if not DatLux.Misc.AutoLevels:Value() then return end
+
+	if DatLux.Misc.AutoLevels:Value() then
+   		if DatLux.Misc.AutoLevel:Value() == 1 then levelorder = {_Q, _E, _W, _E, _E , _R, _E, _Q, _E , _Q, _R, _Q, _Q, _W, _W, _R, _W, _W}
+   		elseif DatLux.Misc.AutoLevel:Value() == 2 then levelorder = {_Q, _E, _W, _Q, _Q, _R, _Q, _E, _Q, _E, _R, _E, _E, _W, _W, _R, _W, _W}
+   		end
+   	end
+   	LevelSpell(levelorder[GetLevel(myHero)])	
+end	
 
 function CountEnemyMinionsAround(pos, range)
 	local MinionsAround = 0
@@ -438,4 +443,8 @@ function Drawings()
 
 		DrawCircle(GetOrigin(myHero).x,GetOrigin(myHero).y,GetOrigin(myHero).z,rangeR,3,DatLux.Drawings.DrawFPS:Value(),0xff00ff00)
 	end
-end		             		
+end
+
+PrintChat(string.format("<font color='#ff0000'>DatLux:</font> <font color='#ff9d00'>Loaded.</font>"))
+PrintChat(string.format("<font color='#ff0000'>Version:</font> <font color='#ff9d00'>1.0.1</font>"))
+PrintChat(string.format("<font color='#ff0000'>Made By:</font> <font color='#ff9d00'>Rakli.</font>"))		             		
